@@ -36,6 +36,34 @@ public class ChattingAdapter extends BaseAdapter {
         list.clear();
     }
 
+    public void remove() {
+        List<Chatting> chattings = new ArrayList<>();
+
+        for(int i = 0; i < list.size(); i++) {
+            Chatting chatting = list.get(i);
+
+            if(chatting.isChecked()) chattings.add(chatting);
+        }
+
+        for(int i = 0; i < chattings.size(); i++) {
+            list.remove(chattings.get(i));
+        }
+    }
+
+    public void readChatting() {
+        for(int i = 0; i < list.size(); i++) {
+            Chatting chatting = list.get(i);
+
+            if(chatting.isChecked()) chatting.setRead(true);
+        }
+    }
+
+    public void readChattingAll() {
+        for(int i = 0; i < list.size(); i++) {
+            list.get(i).setRead(true);
+        }
+    }
+
     @Override
     public int getCount() {
         return list.size();
@@ -73,6 +101,8 @@ public class ChattingAdapter extends BaseAdapter {
                     else chatting.setChecked(true);
 
                     checkChatting(view, chatting);
+
+                    ((MainActivity)context).updateEditBar(list);
                 }
                 else {
                     Chatting chatting = list.get(position);
