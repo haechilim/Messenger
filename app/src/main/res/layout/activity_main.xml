@@ -16,6 +16,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/editButton"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -24,6 +25,18 @@
             android:text="편집"
             android:textColor="#2E9AFE"
             android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="취소"
+            android:textColor="#2E9AFE"
+            android:textSize="20sp"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,6 +49,7 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/addButton"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

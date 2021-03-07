@@ -1,7 +1,6 @@
 package com.example.messenger;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,12 @@ public class ChattingAdapter extends BaseAdapter {
 
     public void add(Chatting chatting) {
         list.add(chatting);
+    }
+
+    public void setEditMode(boolean editMode) {
+        for(int i = 0; i < list.size(); i++) {
+            list.get(i).setEditMode(editMode);
+        }
     }
 
     public void clear() {
@@ -51,7 +56,39 @@ public class ChattingAdapter extends BaseAdapter {
         ((TextView)view.findViewById(R.id.name)).setText(list.get(position).getName());
         ((TextView)view.findViewById(R.id.lastTime)).setText(list.get(position).getLastTime());
         ((TextView)view.findViewById(R.id.message)).setText(list.get(position).getMessege());
+        showReadMark(view, list.get(position));
+        showCheckButton(view, list.get(position));
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(list.get(position).isEditMode()) {
+
+                }
+                else {
+                    Chatting chatting = list.get(position);
+
+                    chatting.setRead(true);
+
+                    showReadMark(view, chatting);
+                }
+            }
+        });
 
         return view;
+    }
+
+    private void showReadMark(View view, Chatting chatting) {
+        int value;
+
+        if(chatting.isEditMode()) value = View.GONE;
+        else value = chatting.isRead() ? View.INVISIBLE : View.VISIBLE;
+
+        view.findViewById(R.id.readMark).setVisibility(value);
+    }
+
+    private void showCheckButton(View view, Chatting chatting) {
+        view.findViewById(R.id.checkButton).setVisibility(chatting.isEditMode() ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.pointer).setVisibility(chatting.isEditMode() ? View.GONE : View.VISIBLE);
     }
 }

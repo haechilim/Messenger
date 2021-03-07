@@ -1,6 +1,3 @@
 <resources>
     <string name="app_name">messenger</string>
-    <string name="name"></string>
-    <string name="message"></string>
-    <string name="lastTime"></string>
 </resources>
