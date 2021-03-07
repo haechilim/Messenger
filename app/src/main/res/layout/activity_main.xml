@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/layout_border"
+        android:background="@drawable/layout_border_buttom"
         android:orientation="horizontal">
 
         <Button
@@ -66,7 +66,60 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9">
-
     </ListView>
+
+    <LinearLayout
+        android:id="@+id/editBar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8"
+        android:orientation="horizontal"
+        android:background="@drawable/layout_border_top"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/readAll"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="모두 읽기"
+            android:textColor="#2E9AFE"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/read"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:text="읽음"
+            android:textColor="#aeaeae"
+            android:textSize="20sp"
+            android:enabled="false"
+            android:visibility="gone"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"/>
+
+        <Button
+            android:id="@+id/delete"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:text="삭제"
+            android:textColor="#aeaeae"
+            android:textSize="20sp"
+            android:enabled="false"/>
+
+    </LinearLayout>
 
 </LinearLayout>

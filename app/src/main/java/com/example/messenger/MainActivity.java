@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 showEditButton(false);
                 showCancelButton(true);
                 showAddButton(false);
+                showEditBar(true);
                 chattingAdapter.setEditMode(true);
                 chattingAdapter.notifyDataSetChanged();
             }
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 showEditButton(true);
                 showCancelButton(false);
                 showAddButton(true);
+                showEditBar(false);
                 chattingAdapter.setEditMode(false);
                 chattingAdapter.notifyDataSetChanged();
             }
@@ -59,5 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAddButton(boolean visibility) {
         findViewById(R.id.addButton).setVisibility(visibility ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    private void showEditBar(boolean visibility) {
+        findViewById(R.id.editBar).setVisibility(visibility ? View.VISIBLE : View.GONE);
     }
 }

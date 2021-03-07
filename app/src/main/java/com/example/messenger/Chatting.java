@@ -6,6 +6,7 @@ public class Chatting {
     private String lastTime;
     private boolean isRead;
     private boolean editMode;
+    private boolean isChecked;
 
     public Chatting(String name, String messege, String lastTime, boolean isRead) {
         this.name = name;
@@ -52,5 +53,13 @@ public class Chatting {
 
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }

@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,9 @@ public class ChattingAdapter extends BaseAdapter {
 
     public void setEditMode(boolean editMode) {
         for(int i = 0; i < list.size(); i++) {
-            list.get(i).setEditMode(editMode);
+            Chatting chatting = list.get(i);
+            chatting.setEditMode(editMode);
+            chatting.setChecked(false);
         }
     }
 
@@ -57,13 +61,18 @@ public class ChattingAdapter extends BaseAdapter {
         ((TextView)view.findViewById(R.id.lastTime)).setText(list.get(position).getLastTime());
         ((TextView)view.findViewById(R.id.message)).setText(list.get(position).getMessege());
         showReadMark(view, list.get(position));
-        showCheckButton(view, list.get(position));
+        showCheckButtonBox(view, list.get(position));
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(list.get(position).isEditMode()) {
+                    Chatting chatting = list.get(position);
 
+                    if(chatting.isChecked()) chatting.setChecked(false);
+                    else chatting.setChecked(true);
+
+                    checkChatting(view, chatting);
                 }
                 else {
                     Chatting chatting = list.get(position);
@@ -87,8 +96,14 @@ public class ChattingAdapter extends BaseAdapter {
         view.findViewById(R.id.readMark).setVisibility(value);
     }
 
-    private void showCheckButton(View view, Chatting chatting) {
-        view.findViewById(R.id.checkButton).setVisibility(chatting.isEditMode() ? View.VISIBLE : View.GONE);
+    private void showCheckButtonBox(View view, Chatting chatting) {
+        view.findViewById(R.id.checkButtonBox).setVisibility(chatting.isEditMode() ? View.VISIBLE : View.GONE);
         view.findViewById(R.id.pointer).setVisibility(chatting.isEditMode() ? View.GONE : View.VISIBLE);
+    }
+
+    private void checkChatting(View view, Chatting chatting) {
+        int layout = chatting.isChecked() ? R.drawable.layout_checked_button : R.drawable.layout_check_button;
+
+        view.findViewById(R.id.checkButton).setBackgroundDrawable(ContextCompat.getDrawable(context, layout));
     }
 }
