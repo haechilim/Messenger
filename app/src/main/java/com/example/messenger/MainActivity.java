@@ -25,22 +25,22 @@ public class MainActivity extends AppCompatActivity {
 
         chattingAdapter.add(new Chatting("010-3499-3068", "[web발신]\n상품이 배송되었습니다. 자...","어제", false));
         chattingAdapter.add(new Chatting("010-3499-9999", "[web발신]\n상품이 배송되었습니다. 자...","어제", false));
-        chattingAdapter.add(new Chatting("010-3499-9999", "[web발신]\n상품이 배송되었습니다. 자...","어제", false));
-        chattingAdapter.add(new Chatting("010-3499-9999", "[web발신]\n상품이 배송되었습니다. 자...","어제", false));
+        chattingAdapter.add(new Chatting("010-3499-9998", "[web발신]\n상품이 배송되었습니다. 자...","어제", false));
+        chattingAdapter.add(new Chatting("010-3499-9997", "[web발신]\n상품이 배송되었습니다. 자...","어제", false));
 
         chattingAdapter.notifyDataSetChanged();
 
         findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edditModeSettingUi(true);
+                editModeSettingUi(true);
             }
         });
 
         findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edditModeSettingUi(false);
+                editModeSettingUi(false);
             }
         });
 
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 chattingAdapter.readChattingAll();
                 chattingAdapter.notifyDataSetChanged();
-                edditModeSettingUi(false);
+                editModeSettingUi(false);
             }
         });
 
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 chattingAdapter.readChatting();
                 chattingAdapter.notifyDataSetChanged();
-                edditModeSettingUi(false);
+                editModeSettingUi(false);
             }
         });
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 chattingAdapter.remove();
                 chattingAdapter.notifyDataSetChanged();
-                edditModeSettingUi(false);
+                editModeSettingUi(false);
             }
         });
     }
@@ -92,14 +92,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void edditModeSettingUi(boolean editMode) {
+    public void editModeSettingUi(boolean editMode) {
         if(!editMode) {
             showReadAllButton(true);
             showReadButton(false);
             enabledDeleteButton(false);
             enabledReadButton(false);
         }
-        
+
         showEditButton(!editMode);
         showCancelButton(editMode);
         showAddButton(!editMode);

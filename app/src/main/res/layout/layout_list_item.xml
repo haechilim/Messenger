@@ -90,4 +90,36 @@
             android:textSize="20sp" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/singleEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/singleRead"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="읽음"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@color/purple_500"/>
+
+        <TextView
+            android:id="@+id/singleDelete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="삭제"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="#ff2222"/>
+
+    </LinearLayout>
 </LinearLayout>

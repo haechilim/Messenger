@@ -1,6 +1,7 @@
 package com.example.messenger;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,12 +92,27 @@ public class ChattingAdapter extends BaseAdapter {
         showReadMark(view, list.get(position));
         showCheckButtonBox(view, list.get(position));
 
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Chatting chatting = list.get(position);
+                chatting.setSingleEditMode(true);
+                showSingleEdit(v, chatting);
+
+                return true;
+            }
+        });
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(list.get(position).isEditMode()) {
-                    Chatting chatting = list.get(position);
+                Chatting chatting = list.get(position);
 
+                if(chatting.isSingleEditMode()) {
+                    chatting.setSingleEditMode(false);
+                    showSingleEdit(v, chatting);
+                }
+                else if(chatting.isEditMode()) {
                     if(chatting.isChecked()) chatting.setChecked(false);
                     else chatting.setChecked(true);
 
@@ -105,12 +121,36 @@ public class ChattingAdapter extends BaseAdapter {
                     ((MainActivity)context).updateEditBar(list);
                 }
                 else {
-                    Chatting chatting = list.get(position);
-
                     chatting.setRead(true);
 
                     showReadMark(view, chatting);
                 }
+            }
+        });
+
+        view.findViewById(R.id.singleRead).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Chatting chatting = list.get(position);
+
+                chatting.setRead(true);
+                showReadMark(view, chatting);
+
+                chatting.setSingleEditMode(false);
+                showSingleEdit(view, chatting);
+            }
+        });
+
+        view.findViewById(R.id.singleDelete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Chatting chatting = list.get(position);
+                list.remove(chatting);
+
+                chatting.setSingleEditMode(false);
+                showSingleEdit(view, chatting);
+
+                ((MainActivity)context).editModeSettingUi(false);
             }
         });
 
@@ -135,5 +175,9 @@ public class ChattingAdapter extends BaseAdapter {
         int layout = chatting.isChecked() ? R.drawable.layout_checked_button : R.drawable.layout_check_button;
 
         view.findViewById(R.id.checkButton).setBackgroundDrawable(ContextCompat.getDrawable(context, layout));
+    }
+
+    private void showSingleEdit(View view, Chatting chatting) {
+        view.findViewById(R.id.singleEdit).setVisibility(chatting.isSingleEditMode() ? View.VISIBLE : View.GONE);
     }
 }
