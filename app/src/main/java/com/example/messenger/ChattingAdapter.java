@@ -1,7 +1,6 @@
 package com.example.messenger;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,28 @@ import java.util.List;
 
 public class ChattingAdapter extends BaseAdapter {
     private Context context;
+    private MessageService messageService;
     private static List<Chatting> list = new ArrayList<>();
 
-    public ChattingAdapter(Context context) {
+    public ChattingAdapter(Context context, MessageService messageService) {
         this.context = context;
+        this.messageService = messageService;
+    }
+
+    public void updateList() {
+        list.clear();
+
+        List<Message> messages = messageService.getMessages();
+        List<String> nameList = new ArrayList<>();
+
+        for(int i = 0; i < messages.size(); i++) {
+            String name = messages.get(i).getName();
+
+            if (!nameList.contains(name)) {
+                nameList.add(name);
+                list.add(new Chatting(messageService, name, context));
+            }
+        }
     }
 
     public void add(Chatting chatting) {
@@ -55,13 +72,13 @@ public class ChattingAdapter extends BaseAdapter {
         for(int i = 0; i < list.size(); i++) {
             Chatting chatting = list.get(i);
 
-            if(chatting.isChecked()) chatting.setRead(true);
+            if(chatting.isChecked()) messageService.readMessage(chatting.getName());
         }
     }
 
     public void readChattingAll() {
         for(int i = 0; i < list.size(); i++) {
-            list.get(i).setRead(true);
+            messageService.readMessage(list.get(i).getName());
         }
     }
 
@@ -87,8 +104,8 @@ public class ChattingAdapter extends BaseAdapter {
         View view = layoutInflater.inflate(R.layout.layout_list_item, parent, false);
 
         ((TextView)view.findViewById(R.id.name)).setText(list.get(position).getName());
-        ((TextView)view.findViewById(R.id.lastTime)).setText(list.get(position).getLastTime());
-        ((TextView)view.findViewById(R.id.message)).setText(list.get(position).getMessege());
+        ((TextView)view.findViewById(R.id.lastTime)).setText(list.get(position).getLastTime() + "");
+        ((TextView)view.findViewById(R.id.message)).setText(list.get(position).getLastMessageContent());
         showReadMark(view, list.get(position));
         showCheckButtonBox(view, list.get(position));
 
@@ -123,6 +140,7 @@ public class ChattingAdapter extends BaseAdapter {
                 else {
                     chatting.setRead(true);
 
+                    messageService.readMessage(chatting.getName());
                     showReadMark(view, chatting);
                 }
             }
@@ -134,6 +152,7 @@ public class ChattingAdapter extends BaseAdapter {
                 Chatting chatting = list.get(position);
 
                 chatting.setRead(true);
+                messageService.readMessage(chatting.getName());
                 showReadMark(view, chatting);
 
                 chatting.setSingleEditMode(false);
@@ -158,10 +177,20 @@ public class ChattingAdapter extends BaseAdapter {
     }
 
     private void showReadMark(View view, Chatting chatting) {
-        int value;
+        int value = View.INVISIBLE;
+        List<Message> messages = messageService.getMessages(chatting.getName());
 
         if(chatting.isEditMode()) value = View.GONE;
-        else value = chatting.isRead() ? View.INVISIBLE : View.VISIBLE;
+        else {
+            for(int i= 0; i < messages.size(); i++) {
+                Message message = messages.get(i);
+
+                if(!message.isRead()) {
+                    value = View.VISIBLE;
+                    break;
+                }
+            }
+        }
 
         view.findViewById(R.id.readMark).setVisibility(value);
     }

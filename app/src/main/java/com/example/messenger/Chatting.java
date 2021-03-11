@@ -1,19 +1,32 @@
 package com.example.messenger;
 
+import android.content.Context;
+
+import java.util.List;
+
 public class Chatting {
     private String name;
-    private String messege;
-    private String lastTime;
+    private List<Message> messeges;
+    private String lastMessageContent;
+    private long lastTime;
     private boolean isRead;
     private boolean editMode;
     private boolean singleEditMode;
     private boolean isChecked;
 
-    public Chatting(String name, String messege, String lastTime, boolean isRead) {
+    public Chatting(MessageService messageService, String name, Context context) {
         this.name = name;
-        this.messege = messege;
-        this.lastTime = lastTime;
-        this.isRead = isRead;
+        this.messeges = messageService.getMessages(name);
+
+        for(int i = 0; i < messeges.size(); i++) {
+            Message message = messeges.get(i);
+
+            if(this.lastTime < message.getTime()) {
+                this.lastTime = message.getTime();
+                this.isRead = message.isRead();
+                this.lastMessageContent = message.getContent();
+            }
+        }
     }
 
     public String getName() {
@@ -24,19 +37,27 @@ public class Chatting {
         this.name = name;
     }
 
-    public String getMessege() {
-        return messege;
+    public List<Message> getMesseges() {
+        return messeges;
     }
 
-    public void setMessege(String messege) {
-        this.messege = messege;
+    public void setMesseges(List<Message> messeges) {
+        this.messeges = messeges;
     }
 
-    public String getLastTime() {
+    public String getLastMessageContent() {
+        return lastMessageContent;
+    }
+
+    public void setLastMessageContent(String lastMessageContent) {
+        this.lastMessageContent = lastMessageContent;
+    }
+
+    public long getLastTime() {
         return lastTime;
     }
 
-    public void setLastTime(String lastTime) {
+    public void setLastTime(long lastTime) {
         this.lastTime = lastTime;
     }
 

@@ -8,26 +8,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ChattingAdapter chattingAdapter;
+    private MessageService messageService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        chattingAdapter = new ChattingAdapter(this);
+        messageService = new MessageService(this);
+        chattingAdapter = new ChattingAdapter(this, messageService);
 
         ListView listView = findViewById(R.id.chattingList);
         listView.setAdapter(chattingAdapter);
 
-        chattingAdapter.add(new Chatting("010-3499-3068", "[web발신]\n상품이 배송되었습니다. 자...","어제", false));
-        chattingAdapter.add(new Chatting("010-3499-9999", "[web발신]\n상품이 배송되었습니다. 자...","어제", false));
-        chattingAdapter.add(new Chatting("010-3499-9998", "[web발신]\n상품이 배송되었습니다. 자...","어제", false));
-        chattingAdapter.add(new Chatting("010-3499-9997", "[web발신]\n상품이 배송되었습니다. 자...","어제", false));
+        Calendar calendar = Calendar.getInstance();
 
+//        messageService.add("123","[web발신]\n상품이", calendar.getTimeInMillis(), false);
+//        messageService.add("010-3400-2222","나중에 보자", calendar.getTimeInMillis(), false);
+//        messageService.add("123989","틀니네", calendar.getTimeInMillis(), false);
+
+        chattingAdapter.updateList();
         chattingAdapter.notifyDataSetChanged();
 
         findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener() {
