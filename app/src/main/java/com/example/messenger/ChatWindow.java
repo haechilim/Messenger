@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -12,8 +13,9 @@ import com.example.messenger.adepter.MessageAdepter;
 import com.example.messenger.helper.Constants;
 import com.example.messenger.service.MessageService;
 
+import java.util.Calendar;
+
 public class ChatWindow extends AppCompatActivity {
-    private TextView chattingName;
     private MessageAdepter messageAdepter;
     private MessageService messageService;
 
@@ -22,10 +24,10 @@ public class ChatWindow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_window);
 
-        chattingName = findViewById(R.id.name);
         messageAdepter = new MessageAdepter(this);
         messageService = new MessageService(this);
 
+        EditText sendMessage = findViewById(R.id.sendMessage);
         ListView listView = findViewById(R.id.messageList);
         listView.setAdapter(messageAdepter);
 
@@ -35,12 +37,14 @@ public class ChatWindow extends AppCompatActivity {
         String name = intent.getStringExtra(Constants.KEY_NAME);
 
         updateUi(isNewChatting);
-        chattingName.setText(name);
+        ((TextView)findViewById(R.id.name)).setText(name);
 
         if(!isNewChatting) messageAdepter.setList(messageService.getMessages(name));
         else messageAdepter.clear();
 
         messageAdepter.notifyDataSetChanged();
+
+        listView.setSelection(messageAdepter.getCount() - 1);
 
         findViewById(R.id.exitButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +63,13 @@ public class ChatWindow extends AppCompatActivity {
         findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
 
+                messageService.add(name, sendMessage.getText().toString().trim(), calendar.getTimeInMillis(),true);
+                messageAdepter.setList(messageService.getMessages(name));
+                messageAdepter.notifyDataSetChanged();
+
+                sendMessage.setText("");
             }
         });
     }
