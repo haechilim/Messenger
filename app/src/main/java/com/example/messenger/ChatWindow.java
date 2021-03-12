@@ -65,7 +65,7 @@ public class ChatWindow extends AppCompatActivity {
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
 
-                messageService.add(name, sendMessage.getText().toString().trim(), calendar.getTimeInMillis(),true);
+                messageService.add(name, sendMessage.getText().toString().trim(), calendar.getTimeInMillis(), true);
                 messageAdepter.setList(messageService.getMessages(name));
                 messageAdepter.notifyDataSetChanged();
 

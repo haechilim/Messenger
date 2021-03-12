@@ -24,7 +24,8 @@ public class MessageService extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table MessageTable(id integer primary key autoincrement not null, name char(30) not null, contents char(300) not null, time long not null, isRead integer not null)");
+        db.execSQL("create table MessageTable(id integer primary key autoincrement not null, name char(30) not null, " +
+                "contents char(300) not null, time long not null, isRead integer not null, isSendMessage integer not null)");
     }
 
     @Override
@@ -32,10 +33,11 @@ public class MessageService extends SQLiteOpenHelper {
 
     }
 
-    public void add(String name, String contents, long time, boolean isRead) {
+    public void add(String name, String contents, long time, boolean isSendMessage) {
         database = getWritableDatabase();
-        database.execSQL("insert into MessageTable(name, contents, time, isRead)" +
-                " values(" + name + ", '" + contents + "', '" + time + "', '" + (isRead ? 1 : 0) + "');");
+        database.execSQL("insert into MessageTable(name, contents, time, isRead, isSendMessage)" +
+                " values(" + name + ", '" + contents + "', '" + time + "'," +
+                " '" + (isSendMessage ? 1 : 0) + "', '" + (isSendMessage ? 1 : 0) + "');");
         database.close();
     }
 
@@ -51,7 +53,8 @@ public class MessageService extends SQLiteOpenHelper {
         database = getWritableDatabase();
         Cursor cursor = database.rawQuery("select * from MessageTable where name = " + name + ";", null);
         while (cursor.moveToNext()) {
-            messages.add(new Message(cursor.getString(1), cursor.getString(2), cursor.getLong(3), cursor.getInt(4) != 0));
+            messages.add(new Message(cursor.getString(1), cursor.getString(2), cursor.getLong(3),
+                    (cursor.getInt(4) != 0), (cursor.getInt(5) != 0)));
         }
         database.close();
 
@@ -71,7 +74,8 @@ public class MessageService extends SQLiteOpenHelper {
         database = getWritableDatabase();
         Cursor cursor = database.rawQuery("select * from MessageTable;", null);
         while (cursor.moveToNext()) {
-            messages.add(new Message(cursor.getString(1), cursor.getString(2), cursor.getLong(3), cursor.getInt(4) != 0));
+            messages.add(new Message(cursor.getString(1), cursor.getString(2), cursor.getLong(3),
+                    (cursor.getInt(4) != 0), (cursor.getInt(5) != 0)));
         }
         database.close();
 

@@ -5,12 +5,14 @@ public class Message {
     private String contents;
     private long time;
     private boolean isRead;
+    private boolean isSendMessage;
 
-    public Message(String name, String contents, long time, boolean isRead) {
+    public Message(String name, String contents, long time, boolean isRead, boolean isSendMessage) {
         this.name = name;
         this.contents = contents;
         this.time = time;
         this.isRead = isRead;
+        this.isSendMessage = isSendMessage;
     }
 
     public String getName() {
@@ -43,5 +45,13 @@ public class Message {
 
     public void setRead(boolean read) {
         isRead = read;
+    }
+
+    public boolean isSendMessage() {
+        return isSendMessage;
+    }
+
+    public void setSendMessage(boolean sendMessage) {
+        isSendMessage = sendMessage;
     }
 }

@@ -129,7 +129,7 @@
             android:background="@null"
             android:ems="10"
             android:hint="문자 메시지"
-            android:inputType="textPersonName"
+            android:inputType="none"
             android:paddingLeft="5dp"/>
 
         <Button

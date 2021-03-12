@@ -1,10 +1,12 @@
 package com.example.messenger.adepter;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.messenger.Message;
@@ -54,7 +56,12 @@ public class MessageAdepter extends BaseAdapter {
 
         View view = layoutInflater.inflate(R.layout.layout_message_list_item, parent, false);
 
-        ((TextView)view.findViewById(R.id.message)).setText(list.get(position).getContents());
+        int id = list.get(position).isSendMessage() ? R.id.rightMessage : R.id.leftMessage;
+
+        TextView message = view.findViewById(id);
+
+        message.setText(list.get(position).getContents());
+        message.setVisibility(View.VISIBLE);
 
         return view;
     }
