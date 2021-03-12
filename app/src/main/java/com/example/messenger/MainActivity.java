@@ -2,14 +2,18 @@ package com.example.messenger;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.messenger.adepter.ChattingAdapter;
+import com.example.messenger.helper.Constants;
+import com.example.messenger.service.MessageService;
+
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editModeSettingUi(true);
+            }
+        });
+
+        findViewById(R.id.addButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.putExtra(Constants.KEY_IS_NEW_CHATTING, true);
+                startChatWindowActivity(intent);
             }
         });
 
@@ -79,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void startChatWindowActivity(Intent intent) {
+        intent.setClass(this, ChatWindow.class);
+        startActivityForResult(intent, 100);
+    }
 
     public void updateEditBar(List<Chatting> list) {
         showReadAllButton(true);

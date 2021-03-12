@@ -2,6 +2,8 @@ package com.example.messenger;
 
 import android.content.Context;
 
+import com.example.messenger.service.MessageService;
+
 import java.util.List;
 
 public class Chatting {

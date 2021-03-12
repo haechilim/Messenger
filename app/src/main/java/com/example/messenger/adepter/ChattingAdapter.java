@@ -1,6 +1,7 @@
-package com.example.messenger;
+package com.example.messenger.adepter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,13 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+
+import com.example.messenger.Chatting;
+import com.example.messenger.MainActivity;
+import com.example.messenger.Message;
+import com.example.messenger.service.MessageService;
+import com.example.messenger.R;
+import com.example.messenger.helper.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +141,11 @@ public class ChattingAdapter extends BaseAdapter {
                 }
                 else {
                     chatting.setRead(true);
+
+                    Intent intent = new Intent();
+                    intent.putExtra(Constants.KEY_IS_NEW_CHATTING, false);
+                    intent.putExtra(Constants.KEY_NAME, chatting.getName());
+                    ((MainActivity)context).startChatWindowActivity(intent);
 
                     messageService.readMessage(chatting.getName());
                     showReadMark(view, chatting);

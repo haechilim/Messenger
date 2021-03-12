@@ -1,4 +1,4 @@
-package com.example.messenger;
+package com.example.messenger.service;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import com.example.messenger.Message;
 
 import java.util.ArrayList;
 import java.util.List;
