@@ -17,7 +17,10 @@ import com.example.messenger.service.MessageService;
 import com.example.messenger.R;
 import com.example.messenger.helper.Constants;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class ChattingAdapter extends BaseAdapter {
@@ -101,12 +104,14 @@ public class ChattingAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd");
+
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = layoutInflater.inflate(R.layout.layout_list_item, parent, false);
 
         ((TextView) view.findViewById(R.id.name)).setText(list.get(position).getName());
-        ((TextView) view.findViewById(R.id.lastTime)).setText(list.get(position).getLastTime() + "");
+        ((TextView) view.findViewById(R.id.lastTime)).setText(simpleDateFormat.format(new Date(list.get(position).getLastTime())));
         ((TextView) view.findViewById(R.id.message)).setText(list.get(position).getLastMessageContent());
         showReadMark(view, list.get(position));
         showCheckButtonBox(view, list.get(position));

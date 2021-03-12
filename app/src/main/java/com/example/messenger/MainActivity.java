@@ -1,5 +1,6 @@
 package com.example.messenger;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -90,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
                 editModeSettingUi(false);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        chattingAdapter.updateList();
+        chattingAdapter.notifyDataSetChanged();
     }
 
     public void startChatWindowActivity(Intent intent) {
