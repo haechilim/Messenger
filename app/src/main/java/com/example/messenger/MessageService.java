@@ -34,9 +34,9 @@ public class MessageService extends SQLiteOpenHelper {
         database.close();
     }
 
-    public void delete(int id) {
+    public void delete(String name) {
         database = getWritableDatabase();
-        database.execSQL("delete from MessageTable where id = " + id + ";");
+        database.execSQL("delete from MessageTable where name = " + name + ";");
         database.close();
     }
 

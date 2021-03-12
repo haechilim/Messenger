@@ -55,16 +55,10 @@ public class ChattingAdapter extends BaseAdapter {
     }
 
     public void remove() {
-        List<Chatting> chattings = new ArrayList<>();
-
         for(int i = 0; i < list.size(); i++) {
             Chatting chatting = list.get(i);
 
-            if(chatting.isChecked()) chattings.add(chatting);
-        }
-
-        for(int i = 0; i < chattings.size(); i++) {
-            list.remove(chattings.get(i));
+            if(chatting.isChecked()) messageService.delete(chatting.getName());
         }
     }
 
@@ -164,7 +158,9 @@ public class ChattingAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Chatting chatting = list.get(position);
-                list.remove(chatting);
+
+                messageService.delete(chatting.getName());
+                updateList();
 
                 chatting.setSingleEditMode(false);
                 showSingleEdit(view, chatting);

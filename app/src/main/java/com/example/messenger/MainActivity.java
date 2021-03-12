@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        messageService.add("123","[web발신]\n상품이", calendar.getTimeInMillis(), false);
 //        messageService.add("010-3400-2222","나중에 보자", calendar.getTimeInMillis(), false);
-//        messageService.add("123989","틀니네", calendar.getTimeInMillis(), false);
+//        messageService.add("123989","틀니네요", calendar.getTimeInMillis(), false);
 
         chattingAdapter.updateList();
         chattingAdapter.notifyDataSetChanged();
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 chattingAdapter.remove();
+                chattingAdapter.updateList();
                 chattingAdapter.notifyDataSetChanged();
                 editModeSettingUi(false);
             }
