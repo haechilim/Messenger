@@ -104,9 +104,11 @@
     </LinearLayout>
 
     <ListView
+        android:id="@+id/messageList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7">
+        android:layout_weight="7"
+        android:divider="#ffffff">
 
     </ListView>
 
@@ -137,6 +139,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:background="@drawable/layout_send_button"
             android:text="↑"
+            android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="20sp"/>
 

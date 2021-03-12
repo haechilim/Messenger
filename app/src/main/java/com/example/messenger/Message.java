@@ -2,13 +2,13 @@ package com.example.messenger;
 
 public class Message {
     private String name;
-    private String content;
+    private String contents;
     private long time;
     private boolean isRead;
 
-    public Message(String name, String content, long time, boolean isRead) {
+    public Message(String name, String contents, long time, boolean isRead) {
         this.name = name;
-        this.content = content;
+        this.contents = contents;
         this.time = time;
         this.isRead = isRead;
     }
@@ -21,12 +21,12 @@ public class Message {
         this.name = name;
     }
 
-    public String getContent() {
-        return content;
+    public String getContents() {
+        return contents;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContents(String contents) {
+        this.contents = contents;
     }
 
     public long getTime() {

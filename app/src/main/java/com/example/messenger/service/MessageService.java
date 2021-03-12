@@ -10,10 +10,13 @@ import androidx.annotation.Nullable;
 import com.example.messenger.Message;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MessageService extends SQLiteOpenHelper {
-    SQLiteDatabase database;
+    private static SQLiteDatabase database;
 
     public MessageService(@Nullable Context context) {
         super(context, "messageDataBase", null, 1);
@@ -51,6 +54,13 @@ public class MessageService extends SQLiteOpenHelper {
             messages.add(new Message(cursor.getString(1), cursor.getString(2), cursor.getLong(3), cursor.getInt(4) != 0));
         }
         database.close();
+
+        Collections.sort(messages, new Comparator<Message>() {
+            @Override
+            public int compare(Message o1, Message o2) {
+                return (int)(o1.getTime() - o2.getTime());
+            }
+        });
 
         return messages;
     }

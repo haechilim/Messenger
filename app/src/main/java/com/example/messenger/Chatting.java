@@ -26,7 +26,7 @@ public class Chatting {
             if(this.lastTime < message.getTime()) {
                 this.lastTime = message.getTime();
                 this.isRead = message.isRead();
-                this.lastMessageContent = message.getContent();
+                this.lastMessageContent = message.getContents();
             }
         }
     }

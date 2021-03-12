@@ -36,7 +36,7 @@ public class ChattingAdapter extends BaseAdapter {
         List<Message> messages = messageService.getMessages();
         List<String> nameList = new ArrayList<>();
 
-        for(int i = 0; i < messages.size(); i++) {
+        for (int i = 0; i < messages.size(); i++) {
             String name = messages.get(i).getName();
 
             if (!nameList.contains(name)) {
@@ -51,7 +51,7 @@ public class ChattingAdapter extends BaseAdapter {
     }
 
     public void setEditMode(boolean editMode) {
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             Chatting chatting = list.get(i);
             chatting.setEditMode(editMode);
             chatting.setChecked(false);
@@ -63,23 +63,23 @@ public class ChattingAdapter extends BaseAdapter {
     }
 
     public void remove() {
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             Chatting chatting = list.get(i);
 
-            if(chatting.isChecked()) messageService.delete(chatting.getName());
+            if (chatting.isChecked()) messageService.delete(chatting.getName());
         }
     }
 
     public void readChatting() {
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             Chatting chatting = list.get(i);
 
-            if(chatting.isChecked()) messageService.readMessage(chatting.getName());
+            if (chatting.isChecked()) messageService.readMessage(chatting.getName());
         }
     }
 
     public void readChattingAll() {
-        for(int i = 0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
             messageService.readMessage(list.get(i).getName());
         }
     }
@@ -105,9 +105,9 @@ public class ChattingAdapter extends BaseAdapter {
 
         View view = layoutInflater.inflate(R.layout.layout_list_item, parent, false);
 
-        ((TextView)view.findViewById(R.id.name)).setText(list.get(position).getName());
-        ((TextView)view.findViewById(R.id.lastTime)).setText(list.get(position).getLastTime() + "");
-        ((TextView)view.findViewById(R.id.message)).setText(list.get(position).getLastMessageContent());
+        ((TextView) view.findViewById(R.id.name)).setText(list.get(position).getName());
+        ((TextView) view.findViewById(R.id.lastTime)).setText(list.get(position).getLastTime() + "");
+        ((TextView) view.findViewById(R.id.message)).setText(list.get(position).getLastMessageContent());
         showReadMark(view, list.get(position));
         showCheckButtonBox(view, list.get(position));
 
@@ -127,26 +127,25 @@ public class ChattingAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Chatting chatting = list.get(position);
 
-                if(chatting.isSingleEditMode()) {
+                if (chatting.isSingleEditMode()) {
                     chatting.setSingleEditMode(false);
                     showSingleEdit(v, chatting);
-                }
-                else if(chatting.isEditMode()) {
-                    if(chatting.isChecked()) chatting.setChecked(false);
+                } else if (chatting.isEditMode()) {
+                    if (chatting.isChecked()) chatting.setChecked(false);
                     else chatting.setChecked(true);
 
                     checkChatting(view, chatting);
 
-                    ((MainActivity)context).updateEditBar(list);
-                }
-                else {
-                    chatting.setRead(true);
+                    ((MainActivity) context).updateEditBar(list);
+                } else {
+                    String name = chatting.getName();
 
                     Intent intent = new Intent();
                     intent.putExtra(Constants.KEY_IS_NEW_CHATTING, false);
-                    intent.putExtra(Constants.KEY_NAME, chatting.getName());
-                    ((MainActivity)context).startChatWindowActivity(intent);
+                    intent.putExtra(Constants.KEY_NAME, name);
+                    ((MainActivity) context).startChatWindowActivity(intent);
 
+                    chatting.setRead(true);
                     messageService.readMessage(chatting.getName());
                     showReadMark(view, chatting);
                 }
@@ -178,7 +177,7 @@ public class ChattingAdapter extends BaseAdapter {
                 chatting.setSingleEditMode(false);
                 showSingleEdit(view, chatting);
 
-                ((MainActivity)context).editModeSettingUi(false);
+                ((MainActivity) context).editModeSettingUi(false);
             }
         });
 
@@ -189,12 +188,12 @@ public class ChattingAdapter extends BaseAdapter {
         int value = View.INVISIBLE;
         List<Message> messages = messageService.getMessages(chatting.getName());
 
-        if(chatting.isEditMode()) value = View.GONE;
+        if (chatting.isEditMode()) value = View.GONE;
         else {
-            for(int i= 0; i < messages.size(); i++) {
+            for (int i = 0; i < messages.size(); i++) {
                 Message message = messages.get(i);
 
-                if(!message.isRead()) {
+                if (!message.isRead()) {
                     value = View.VISIBLE;
                     break;
                 }

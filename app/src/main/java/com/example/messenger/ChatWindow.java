@@ -5,28 +5,42 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.messenger.adepter.MessageAdepter;
 import com.example.messenger.helper.Constants;
+import com.example.messenger.service.MessageService;
 
 public class ChatWindow extends AppCompatActivity {
-    private TextView name;
+    private TextView chattingName;
+    private MessageAdepter messageAdepter;
+    private MessageService messageService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_window);
 
-        name = findViewById(R.id.name);
+        chattingName = findViewById(R.id.name);
+        messageAdepter = new MessageAdepter(this);
+        messageService = new MessageService(this);
+
+        ListView listView = findViewById(R.id.messageList);
+        listView.setAdapter(messageAdepter);
 
         Intent intent = getIntent();
 
         boolean isNewChatting = intent.getBooleanExtra(Constants.KEY_IS_NEW_CHATTING, false);
-        updateUi(isNewChatting);
+        String name = intent.getStringExtra(Constants.KEY_NAME);
 
-        if(!isNewChatting) {
-            name.setText(intent.getStringExtra(Constants.KEY_NAME));
-        }
+        updateUi(isNewChatting);
+        chattingName.setText(name);
+
+        if(!isNewChatting) messageAdepter.setList(messageService.getMessages(name));
+        else messageAdepter.clear();
+
+        messageAdepter.notifyDataSetChanged();
 
         findViewById(R.id.exitButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +53,13 @@ public class ChatWindow extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
