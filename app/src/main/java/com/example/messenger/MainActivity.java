@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.chattingList);
         listView.setAdapter(chattingAdapter);
 
+        TimerThread timerThread = new TimerThread(this, messageService, chattingAdapter);
+        timerThread.start();
+
         Calendar calendar = Calendar.getInstance();
 
 //        messageService.add("123","[web발신]\n상품이", calendar.getTimeInMillis(), false);

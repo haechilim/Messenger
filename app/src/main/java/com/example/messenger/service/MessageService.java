@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -35,15 +36,17 @@ public class MessageService extends SQLiteOpenHelper {
 
     public void add(String name, String contents, long time, boolean isSendMessage) {
         database = getWritableDatabase();
-        database.execSQL("insert into MessageTable(name, contents, time, isRead, isSendMessage)" +
-                " values(" + name + ", '" + contents + "', '" + time + "'," +
-                " '" + (isSendMessage ? 1 : 0) + "', '" + (isSendMessage ? 1 : 0) + "');");
+        String sql = "insert into MessageTable(name, contents, time, isRead, isSendMessage)" +
+                " values('" + name + "', '" + contents + "', '" + time + "'," +
+                " '" + (isSendMessage ? 1 : 0) + "', '" + (isSendMessage ? 1 : 0) + "');";
+        Log.d("test", sql);
+        database.execSQL(sql);
         database.close();
     }
 
     public void delete(String name) {
         database = getWritableDatabase();
-        database.execSQL("delete from MessageTable where name = " + name + ";");
+        database.execSQL("delete from MessageTable where name = '" + name + "';");
         database.close();
     }
 
@@ -51,7 +54,7 @@ public class MessageService extends SQLiteOpenHelper {
         List<Message> messages = new ArrayList<>();
 
         database = getWritableDatabase();
-        Cursor cursor = database.rawQuery("select * from MessageTable where name = " + name + ";", null);
+        Cursor cursor = database.rawQuery("select * from MessageTable where name = '" + name + "';", null);
         while (cursor.moveToNext()) {
             messages.add(new Message(cursor.getString(1), cursor.getString(2), cursor.getLong(3),
                     (cursor.getInt(4) != 0), (cursor.getInt(5) != 0)));
@@ -84,7 +87,22 @@ public class MessageService extends SQLiteOpenHelper {
 
     public void readMessage(String name) {
         database = this.getWritableDatabase();
-        database.execSQL("update MessageTable set isRead = 1 " + "where name = " + name + ";");
+        database.execSQL("update MessageTable set isRead = 1 " + "where name = '" + name + "';");
         database.close();
+    }
+
+    public List<String> getNames() {
+        List<String> names = new ArrayList<>();
+
+        database = getWritableDatabase();
+        Cursor cursor = database.rawQuery("select * from MessageTable;", null);
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(1);
+
+            if(!names.contains(name)) names.add(name);
+        }
+        database.close();
+
+        return names;
     }
 }

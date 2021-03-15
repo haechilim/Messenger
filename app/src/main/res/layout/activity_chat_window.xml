@@ -9,7 +9,7 @@
     tools:context=".ChatWindow">
 
     <LinearLayout
-        android:background="@drawable/layout_border_buttom"
+        android:background="@drawable/layout_border_bottom"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal">
